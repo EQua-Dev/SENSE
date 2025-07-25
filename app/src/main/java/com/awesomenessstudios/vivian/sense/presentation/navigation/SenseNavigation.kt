@@ -12,6 +12,7 @@ import com.awesomenessstudios.vivian.sense.presentation.ui.auth.AuthUiState
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.SignInScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.SignUpScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.home.HomeScreen
+import com.awesomenessstudios.vivian.sense.presentation.ui.post.CreatePostScreen
 import com.awesomenessstudios.vivian.sense.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -51,6 +52,10 @@ fun SenseNavigation(
 
         composable(Screen.Home.route) {
             HomeScreen(
+                onNavigateToCreatePost = {
+                    navController.navigate(Screen.CreatePost.route)
+                },
+//                currentUser = ,
                 onSignOut = {
                     mainViewModel.signOut()
                     navController.navigate(Screen.SignIn.route) {
@@ -58,6 +63,15 @@ fun SenseNavigation(
                     }
                 }
             )
+        }
+
+        composable(Screen.CreatePost.route) {
+            CreatePostScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
+
+                )
         }
     }
 }

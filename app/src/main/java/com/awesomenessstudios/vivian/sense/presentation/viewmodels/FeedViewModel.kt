@@ -3,6 +3,7 @@ package com.awesomenessstudios.vivian.sense.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.awesomenessstudios.vivian.sense.domain.usecases.auth.GetCurrentUserUseCase
 import com.awesomenessstudios.vivian.sense.domain.usecases.posts.GetPostsUseCase
 import com.awesomenessstudios.vivian.sense.presentation.ui.post.PostsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val getPostsUseCase: GetPostsUseCase
+    private val getPostsUseCase: GetPostsUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : ViewModel() {
 
     private val _postsState = MutableStateFlow<PostsUiState>(PostsUiState.Loading)
