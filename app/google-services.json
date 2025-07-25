@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "45732654423",
+    "project_id": "buzor-online-tutorial",
+    "storage_bucket": "buzor-online-tutorial.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45732654423:android:e290de4caa518600f42212",
+        "android_client_info": {
+          "package_name": "awesomenessstudios.schoolprojects.buzortutorialplatform"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVoGM4qWmkqjDvYx2it_Ch5ny3ajubeZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45732654423:android:efb0bf1de92e08f2f42212",
+        "android_client_info": {
+          "package_name": "com.awesomenessstudios.vivian.sense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVoGM4qWmkqjDvYx2it_Ch5ny3ajubeZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
