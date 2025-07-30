@@ -13,5 +13,8 @@ data class SensePost(
     val createdAt: Date = Date(),
     val updatedAt: Date = Date(),
     val commentCount: Int = 0,
-    val user: SenseUser? = null
+    val user: SenseUser? = null,
+    val likeCount: Int = 0,        // Add this
+    val shareCount: Int = 0,       // Add this
+    val isLikedByCurrentUser: Boolean = false,
 ) : Parcelable

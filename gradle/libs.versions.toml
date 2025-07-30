@@ -5,6 +5,7 @@ coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+ktorClientCio = "3.0.3"
 lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
 composeBom = "2024.09.00"
@@ -38,6 +39,7 @@ lottie = "6.0.0"
 lottieCompose = "6.0.0"
 lottiedialog = "1.0.0"
 materialIconsExtended = "1.6.8"
+mpandroidchart = "v3.1.0"
 multidex = "2.0.1"
 navigationSafeArgsGradlePlugin = "2.7.7"
 runtimeLivedata = "1.6.8"
@@ -46,6 +48,13 @@ firebaseStorageKtx = "21.0.1"
 composeMaterial = "1.4.1"
 biometricKtx = "1.1.0"
 biometric = "1.4.0-alpha02"
+#tensorflowLite = "2.17.0"
+#tensorflowLiteGpu = "2.17.0"
+#tensorflowLiteSupport = "0.5.0"
+#tensorflowLiteTaskText = "0.4.4"
+tensorflowLite = "2.17.0"
+tensorflowLiteSupport = "0.4.4"  # Changed from 0.5.0 to match task-text
+tensorflowLiteTaskText = "0.4.4"
 translate = "17.0.3"
 openaiClient = "3.3.0"
 playServicesAuth = "21.2.0"
@@ -102,11 +111,13 @@ kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", v
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCio" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 lottiedialog = { module = "io.github.amrdeveloper:lottiedialog", version.ref = "lottiedialog" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
+mpandroidchart = { group = "com.github.PhilJay", name="MPAndroidChart", version.ref = "mpandroidchart" }
 openai-client = { module = "com.aallam.openai:openai-client", version.ref = "openaiClient" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
@@ -115,6 +126,14 @@ firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage
 androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometricKtx" }
 androidx-biometric = { module = "androidx.biometric:biometric" }
 biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
+#tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref = "tensorflowLite" }
+#tensorflow-lite-gpu = { module = "org.tensorflow:tensorflow-lite-gpu", version.ref = "tensorflowLiteGpu" }
+#tensorflow-lite-support = { module = "org.tensorflow:tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
+#tensorflow-lite-task-text = { module = "org.tensorflow:tensorflow-lite-task-text", version.ref = "tensorflowLiteTaskText" }
+tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref = "tensorflowLite" }
+#tensorflow-lite-gpu = { module = "org.tensorflow:tensorflow-lite-gpu", version.ref = "tensorflowLite" }
+#tensorflow-lite-support = { module = "org.tensorflow:tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
+tensorflow-lite-task-text = { module = "org.tensorflow:tensorflow-lite-task-text", version.ref = "tensorflowLiteTaskText" }
 translate = { module = "com.google.mlkit:translate", version.ref = "translate" }
 
 

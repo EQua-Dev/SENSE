@@ -37,6 +37,10 @@ class PostRepositoryImpl @Inject constructor(
         return postDataSource.getUserPostsFlow(userId)
     }
 
+    override suspend fun likePost(postId: String): Result<Unit> {
+        return postDataSource.likePost(postId)
+    }
+
     suspend fun uploadImage(imageUri: String, postId: String): Result<String> {
         return postDataSource.uploadImage(imageUri, postId)
     }

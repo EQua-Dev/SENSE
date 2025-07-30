@@ -25,6 +25,14 @@ class GetUserPostsUseCase @Inject constructor(
     operator fun invoke(userId: String) = postRepository.getUserPostsFlow(userId)
 }
 
+class LikePostUseCase @Inject constructor(
+    private val postRepository: PostRepository
+) {
+    suspend operator fun invoke(postId: String): Result<Unit> {
+        return postRepository.likePost(postId)
+    }
+}
+
 class DeletePostUseCase @Inject constructor(
     private val postRepository: PostRepository
 ) {

@@ -1,18 +1,26 @@
 package com.awesomenessstudios.vivian.sense.presentation.navigation
 
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.awesomenessstudios.vivian.sense.presentation.ui.analytics.AnalyticsScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.AuthUiState
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.SignInScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.SignUpScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.home.HomeScreen
+import com.awesomenessstudios.vivian.sense.presentation.ui.notifications.NotificationsScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.post.CreatePostScreen
+import com.awesomenessstudios.vivian.sense.presentation.ui.profile.ProfileScreen
+import com.awesomenessstudios.vivian.sense.presentation.ui.search.SearchScreen
+import com.awesomenessstudios.vivian.sense.presentation.ui.settings.SettingsScreen
 import com.awesomenessstudios.vivian.sense.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -24,6 +32,7 @@ fun SenseNavigation(
 
     NavHost(
         navController = navController,
+        modifier = Modifier.padding(vertical = 12.dp),
         startDestination = when (authState) {
             is AuthUiState.Authenticated -> Screen.Home.route
             is AuthUiState.Unauthenticated -> Screen.SignIn.route
@@ -61,12 +70,57 @@ fun SenseNavigation(
                     navController.navigate(Screen.SignIn.route) {
                         popUpTo(Screen.Home.route) { inclusive = true }
                     }
-                }
+                },
+                onNavigateToSearch = { navController.navigate(Screen.Search.route) },
+                onNavigateToProfile = { navController.navigate(Screen.Profile.route) },
+                onNavigateToAnalytics = { navController.navigate(Screen.Analytics.route) },
+                onNavigateToSettings = { navController.navigate(Screen.Settings.route) },
+                onNavigateToNotifications = { navController.navigate(Screen.Notifications.route) },
             )
         }
 
         composable(Screen.CreatePost.route) {
             CreatePostScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
+
+                )
+        }
+        composable(Screen.Profile.route) {
+            ProfileScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
+
+                )
+        }
+        composable(Screen.Notifications.route) {
+            NotificationsScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
+
+                )
+        }
+        composable(Screen.Search.route) {
+            SearchScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
+
+                )
+        }
+        composable(Screen.Settings.route) {
+            SettingsScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
+                },
+
+                )
+        }
+        composable(Screen.Analytics.route) {
+            AnalyticsScreen(
                 onNavigateBack = {
                     navController.navigateUp()
                 },

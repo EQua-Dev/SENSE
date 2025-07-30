@@ -11,4 +11,5 @@ interface PostDataSource {
     fun getPostsFlow(): Flow<List<SensePost>>
     fun getUserPostsFlow(userId: String): Flow<List<SensePost>>
     suspend fun uploadImage(imageUri: String, postId: String): Result<String>
+    suspend fun likePost(postId: String): Result<Unit>
 }

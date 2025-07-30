@@ -25,6 +25,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    androidResources {
+        noCompress += "tflite"
+    }
+
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -136,7 +141,7 @@ dependencies {
 //    implementation(libs.play.services.location.v2101)
 
     implementation(libs.coil.compose) // Use the latest version
-    implementation("io.ktor:ktor-client-cio:3.0.3")
+    implementation(libs.ktor.client.cio)
 
 
     implementation(libs.androidx.biometric)
@@ -145,5 +150,33 @@ dependencies {
     implementation (libs.androidx.foundation)
     implementation (libs.accompanist.pager.indicators)
     implementation (libs.translate)
+
+
+    // TensorFlow Lite
+//    implementation(libs.tensorflow.lite)
+//    implementation(libs.tensorflow.lite.support)
+//    implementation(libs.tensorflow.lite.gpu) // Optional: GPU acceleration
+
+    // Text processing
+//    implementation(libs.tensorflow.lite.task.text)
+
+//    // DO NOT include these:
+//    implementation("com.google.ai.edge.litert:litert-api:1.0.1")
+//    implementation("com.google.ai.edge.litert:litert-support-api:1.0.1")
+
+    dependencies {
+        implementation(libs.tensorflow.lite)
+       /* implementation(libs.tensorflow.lite.support) {
+            exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+        }*/
+//        implementation(libs.tensorflow.lite.gpu)
+        implementation(libs.tensorflow.lite.task.text) {
+            exclude(group = "org.tensorflow", module = "tensorflow-lite-support-api")
+        }
+    }
+
+    // For charts/visualization (Phase 4, Feature 10)
+    implementation(libs.mpandroidchart)
+
 
 }

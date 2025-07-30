@@ -10,4 +10,5 @@ interface PostRepository {
     suspend fun getPost(postId: String): Result<SensePost>
     fun getPostsFlow(): Flow<List<SensePost>>
     fun getUserPostsFlow(userId: String): Flow<List<SensePost>>
+    suspend fun likePost(postId: String): Result<Unit>
 }
