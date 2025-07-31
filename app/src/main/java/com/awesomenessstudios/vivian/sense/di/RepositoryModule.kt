@@ -2,12 +2,16 @@ package com.awesomenessstudios.vivian.sense.di
 
 
 import com.awesomenessstudios.vivian.sense.data.remote.AuthDataSource
+import com.awesomenessstudios.vivian.sense.data.remote.CommentDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.PostDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.impl.FirebaseAuthDataSource
+import com.awesomenessstudios.vivian.sense.data.remote.impl.FirebaseCommentDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.impl.FirebasePostDataSource
 import com.awesomenessstudios.vivian.sense.data.repository.AuthRepositoryImpl
+import com.awesomenessstudios.vivian.sense.data.repository.CommentRepositoryImpl
 import com.awesomenessstudios.vivian.sense.data.repository.PostRepositoryImpl
 import com.awesomenessstudios.vivian.sense.domain.repository.AuthRepository
+import com.awesomenessstudios.vivian.sense.domain.repository.CommentRepository
 import com.awesomenessstudios.vivian.sense.domain.repository.PostRepository
 import dagger.Binds
 import dagger.Module
@@ -42,4 +46,16 @@ abstract class RepositoryModule {
     abstract fun bindPostRepository(
         postRepositoryImpl: PostRepositoryImpl
     ): PostRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCommentDataSource(
+        firebaseCommentDataSource: FirebaseCommentDataSource
+    ): CommentDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindCommentRepository(
+        commentRepositoryImpl: CommentRepositoryImpl
+    ): CommentRepository
 }

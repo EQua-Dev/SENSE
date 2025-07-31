@@ -166,6 +166,7 @@ dependencies {
 
     dependencies {
         implementation(libs.tensorflow.lite)
+        implementation("org.tensorflow:tensorflow-lite-select-tf-ops:2.13.0")
        /* implementation(libs.tensorflow.lite.support) {
             exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
         }*/

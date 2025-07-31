@@ -33,6 +33,10 @@ class PostRepositoryImpl @Inject constructor(
         return postDataSource.getPostsFlow()
     }
 
+    override fun getPostDetailFlow(postId: String): Flow<SensePost> {
+        return postDataSource.getPostDetailFlow(postId)
+    }
+
     override fun getUserPostsFlow(userId: String): Flow<List<SensePost>> {
         return postDataSource.getUserPostsFlow(userId)
     }

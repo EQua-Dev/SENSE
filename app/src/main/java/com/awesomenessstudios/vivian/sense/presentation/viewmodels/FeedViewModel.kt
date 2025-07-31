@@ -3,8 +3,11 @@ package com.awesomenessstudios.vivian.sense.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.awesomenessstudios.vivian.sense.data.models.SenseComment
 import com.awesomenessstudios.vivian.sense.domain.usecases.auth.GetCurrentUserUseCase
+import com.awesomenessstudios.vivian.sense.domain.usecases.comments.CreateCommentUseCase
 import com.awesomenessstudios.vivian.sense.domain.usecases.posts.GetPostsUseCase
+import com.awesomenessstudios.vivian.sense.presentation.ui.post.PostDetailUiEvent
 import com.awesomenessstudios.vivian.sense.presentation.ui.post.PostsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val getPostsUseCase: GetPostsUseCase,
+    private val createCommentUseCase: CreateCommentUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : ViewModel() {
 
@@ -26,6 +30,7 @@ class FeedViewModel @Inject constructor(
     init {
         loadPosts()
     }
+
 
     private fun loadPosts() {
         viewModelScope.launch {
@@ -40,7 +45,12 @@ class FeedViewModel @Inject constructor(
         }
     }
 
+    private fun getComments() {
+
+    }
+
     fun refreshPosts() {
         loadPosts()
     }
+
 }

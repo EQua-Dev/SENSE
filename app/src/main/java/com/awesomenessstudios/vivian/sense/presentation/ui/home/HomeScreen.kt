@@ -48,6 +48,7 @@ fun HomeScreen(
     onNavigateToNotifications: () -> Unit,
 //    currentUser: SenseUser?,
     onNavigateToCreatePost: () -> Unit,
+    onNavigateToPostDetail: (String) -> Unit,
     viewModel: FeedViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -308,7 +309,9 @@ fun HomeScreen(
                                 onDeleteClick = { postId ->
                                     // handle delete
                                 },
-                                onPostClick = {},
+                                onPostClick = {
+                                    onNavigateToPostDetail(it)
+                                },
                                 onLikeClick = { postId ->
                                     homeViewModel.onEvent(HomeUiEvent.OnLikeClicked(postId))
                                 },

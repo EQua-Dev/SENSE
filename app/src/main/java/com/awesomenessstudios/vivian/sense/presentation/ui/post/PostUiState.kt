@@ -1,6 +1,7 @@
 package com.awesomenessstudios.vivian.sense.presentation.ui.post
 
 
+import com.awesomenessstudios.vivian.sense.data.models.SenseComment
 import com.awesomenessstudios.vivian.sense.data.models.SensePost
 
 data class CreatePostState(

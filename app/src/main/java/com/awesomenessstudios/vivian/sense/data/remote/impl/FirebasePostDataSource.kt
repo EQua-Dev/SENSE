@@ -1,9 +1,13 @@
 package com.awesomenessstudios.vivian.sense.data.remote.impl
 
 
+import com.awesomenessstudios.vivian.sense.data.models.SenseComment
 import com.awesomenessstudios.vivian.sense.data.models.SensePost
+import com.awesomenessstudios.vivian.sense.data.models.SenseSentiment
 import com.awesomenessstudios.vivian.sense.data.models.SenseUser
 import com.awesomenessstudios.vivian.sense.data.remote.PostDataSource
+import com.awesomenessstudios.vivian.sense.ml.SentimentAnalyzer
+import com.awesomenessstudios.vivian.sense.ml.models.TextType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,7 +29,8 @@ import javax.inject.Singleton
 class FirebasePostDataSource @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val sentimentAnalyzer: SentimentAnalyzer
 ) : PostDataSource {
 
     override suspend fun createPost(post: SensePost): Result<SensePost> {
@@ -177,6 +182,44 @@ class FirebasePostDataSource @Inject constructor(
         awaitClose { listener.remove() }
     }
 
+    override fun getPostDetailFlow(postId: String): Flow<SensePost> = callbackFlow {
+        val currentUserId = auth.currentUser?.uid
+        val listener = firestore.collection("posts")
+            .document(postId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
+
+                val post = snapshot?.toObject(SensePost::class.java)?.copy(id = snapshot.id)
+                if (post == null) {
+                    close(IllegalStateException("Post not found"))
+                    return@addSnapshotListener
+                }
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val enrichedPost = if (currentUserId != null) {
+                        val likeSnapshot = firestore.collection("posts")
+                            .document(postId)
+                            .collection("likes")
+                            .document(currentUserId)
+                            .get()
+                            .await()
+
+                        post.copy(isLikedByCurrentUser = likeSnapshot.exists())
+                    } else {
+                        post
+                    }
+
+                    trySend(enrichedPost).isSuccess
+                }
+            }
+
+        awaitClose { listener.remove() }
+    }
+
+
     override fun getUserPostsFlow(userId: String): Flow<List<SensePost>> = callbackFlow {
         val listener = firestore.collection("posts")
             .whereEqualTo("userId", userId)
@@ -241,6 +284,8 @@ class FirebasePostDataSource @Inject constructor(
             Result.failure(e)
         }
     }
+
+
 
     suspend fun getLikes(postId: String): List<SenseUser> {
         val likeDocs = firestore.collection("posts")

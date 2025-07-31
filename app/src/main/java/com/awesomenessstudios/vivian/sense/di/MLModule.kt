@@ -18,8 +18,8 @@ object MLModule {
 
     @Provides
     @Singleton
-    fun provideTextPreprocessor(): TextPreprocessor {
-        return TextPreprocessor()
+    fun provideTextPreprocessor(@ApplicationContext context: Context): TextPreprocessor {
+        return TextPreprocessor(context)
     }
 
     @Provides

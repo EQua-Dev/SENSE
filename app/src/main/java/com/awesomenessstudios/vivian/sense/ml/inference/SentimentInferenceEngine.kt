@@ -8,6 +8,7 @@ import com.awesomenessstudios.vivian.sense.ml.models.SentimentResult
 import com.awesomenessstudios.vivian.sense.ml.preprocessing.ProcessedText
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.flex.FlexDelegate
 import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -25,6 +26,7 @@ class SentimentInferenceEngine @Inject constructor(
     private var interpreter: Interpreter? = null
     private val modelFileName = "sentiment_model.tflite"
     private var useMockInference = false
+    private var isInitialized = false
 
     companion object {
         private const val TAG = "SentimentInferenceEngine"
@@ -48,6 +50,7 @@ class SentimentInferenceEngine @Inject constructor(
             // Try to load the actual model
             val modelBuffer = loadModelFile()
             val options = Interpreter.Options().apply {
+                addDelegate(FlexDelegate())
                 setNumThreads(4)
                 setUseNNAPI(false) // Disable NNAPI initially for debugging
             }
@@ -70,11 +73,15 @@ class SentimentInferenceEngine @Inject constructor(
 
             Log.d(TAG, "✅ TensorFlow Lite model loaded successfully")
             useMockInference = false
+            isInitialized = true
+
             true
 
         } catch (e: Exception) {
             Log.e(TAG, "❌ Failed to load TensorFlow Lite model, falling back to mock", e)
             fallbackToMock()
+            isInitialized = false
+
             true
         }
     }
@@ -105,6 +112,8 @@ class SentimentInferenceEngine @Inject constructor(
      * Run sentiment analysis (real or mock)
      */
     fun runInference(processedText: ProcessedText): SentimentResult? {
+//        return runRealInference(processedText)
+
         return if (useMockInference) {
             runMockInference(processedText)
         } else {
@@ -116,6 +125,12 @@ class SentimentInferenceEngine @Inject constructor(
      * Run real TensorFlow Lite inference
      */
     private fun runRealInference(processedText: ProcessedText): SentimentResult? {
+
+        if (!isInitialized) {
+            Log.e(TAG, "❌ Inference engine not initialized. Call initialize() first.")
+            return null
+        }
+
         val currentInterpreter = interpreter ?: return null
 
         return try {
