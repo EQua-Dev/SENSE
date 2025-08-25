@@ -14,6 +14,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.awesomenessstudios.vivian.sense.presentation.ui.analytics.AnalyticsScreen
+import com.awesomenessstudios.vivian.sense.presentation.ui.analytics.AnalyticsSection
+import com.awesomenessstudios.vivian.sense.presentation.ui.analytics.PostsAnalyticsDetailScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.AuthUiState
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.SignInScreen
 import com.awesomenessstudios.vivian.sense.presentation.ui.auth.SignUpScreen
@@ -145,7 +147,41 @@ fun SenseNavigation(
                 onNavigateBack = {
                     navController.navigateUp()
                 },
-                onNavigateToDetail = { analyticSection, _ -> }
+                onNavigateToDetail = { section, itemId ->
+                    when (section) {
+                        AnalyticsSection.POSTS -> {
+                            navController.navigate("posts_detail")
+                        }
+
+                        AnalyticsSection.COMMENTS_RECEIVED -> {
+                            navController.navigate("comments_received_detail")
+                        }
+
+                        AnalyticsSection.COMMENTS_POSTED -> {
+                            navController.navigate("comments_posted_detail")
+                        }
+
+                        AnalyticsSection.ENGAGEMENT -> {
+                            navController.navigate("engagement_detail")
+                        }
+
+                        AnalyticsSection.SENTIMENT_TRENDS -> {
+                            navController.navigate("sentiment_detail")
+                        }
+
+                        AnalyticsSection.OVERVIEW -> {
+                            // Could show expanded overview or do nothing
+                        }
+                    }
+                },
+            )
+        }
+        composable("posts_detail") {
+            PostsAnalyticsDetailScreen(
+                onNavigateBack = { navController.navigateUp() },
+                onPostClick = { postId ->
+                    navController.navigate("post_detail/$postId")
+                }
             )
         }
     }
