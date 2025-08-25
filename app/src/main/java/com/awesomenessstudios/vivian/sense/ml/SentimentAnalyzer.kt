@@ -112,7 +112,7 @@ class SentimentAnalyzer @Inject constructor(
         }
 
         // Check text length
-        if (text.length < MIN_TEXT_LENGTH) {
+        if (isTextTooShort(text)) {
             Log.d(TAG, "⚠️ Text too short (${text.length} chars), returning neutral")
             return@withContext createNeutralAnalysis(textId, text, textType)
         }
@@ -177,7 +177,10 @@ class SentimentAnalyzer @Inject constructor(
         val analyses = mutableListOf<SentimentAnalysis>()
 
         texts.chunked(MAX_BATCH_SIZE).forEachIndexed { batchIndex, batch ->
-            Log.d(TAG, "📦 Processing batch ${batchIndex + 1}/${(texts.size + MAX_BATCH_SIZE - 1) / MAX_BATCH_SIZE}")
+            Log.d(
+                TAG,
+                "📦 Processing batch ${batchIndex + 1}/${(texts.size + MAX_BATCH_SIZE - 1) / MAX_BATCH_SIZE}"
+            )
 
             batch.forEach { (textId, text) ->
                 val analysis = analyzeSentiment(textId, text, textType)
@@ -187,7 +190,10 @@ class SentimentAnalyzer @Inject constructor(
 
         val summary = calculateSentimentSummary(analyses)
 
-        Log.d(TAG, "✅ Bulk analysis completed: ${analyses.size}/${texts.size} texts processed successfully")
+        Log.d(
+            TAG,
+            "✅ Bulk analysis completed: ${analyses.size}/${texts.size} texts processed successfully"
+        )
 
         BulkSentimentResult(
             targetId = targetId,
@@ -223,6 +229,59 @@ class SentimentAnalyzer @Inject constructor(
             distribution = distribution
         )
     }
+
+    /**
+     * Smart text validation that doesn't reject meaningful short content
+     */
+    private fun isTextTooShort(text: String): Boolean {
+        val trimmedText = text.trim()
+
+        // Empty or whitespace-only text is too short
+        if (trimmedText.isEmpty()) return true
+
+        // Check for emojis - they're meaningful even if short
+        val emojiPattern =
+            Regex("[\\p{So}\\p{Cn}\\u200D\\uFE0F\\u20E3\\u2030-\\u2BFF\\u1F000-\\u1F6FF\\u1F700-\\u1F77F\\u1F780-\\u1F7FF\\u1F800-\\u1F8FF\\u1F900-\\u1F9FF\\uD83C\\uD83D\\uD83E]")
+        if (emojiPattern.containsMatchIn(trimmedText)) {
+            Log.d(TAG, "✅ Emoji detected in short text, allowing analysis")
+            return false
+        }
+
+        // Common meaningful short expressions
+        val meaningfulShortExpressions = setOf(
+            // Basic responses
+            "ok", "okay", "yes", "no", "nah", "yep", "yup", "nope",
+            // Reactions
+            "wow", "omg", "wtf", "lol", "lmao", "rofl", "haha", "hehe",
+            "yay", "ugh", "meh", "hmm", "ooh", "ahh", "eww", "oof",
+            // Social media
+            "rip", "smh", "tbh", "ngl", "fr", "bet", "cap", "sus",
+            // Emotions
+            "sad", "mad", "bad", "good", "nice", "cool", "hot", "cute",
+            // Slang
+            "lit", "fire", "sick", "dope", "mid", "trash", "vibe", "mood"
+        )
+
+        if (meaningfulShortExpressions.contains(trimmedText.lowercase())) {
+            Log.d(TAG, "✅ Meaningful short expression detected: '$trimmedText'")
+            return false
+        }
+
+        // Check for repeated characters (like "!!!" or "???") which can be meaningful
+        if (trimmedText.matches(Regex("^[!?.,]{2,}$"))) {
+            Log.d(TAG, "✅ Punctuation pattern detected: '$trimmedText'")
+            return false
+        }
+
+        // Only reject if less than 2 characters and not meaningful
+        val isTooShort = trimmedText.length < 2
+        if (isTooShort) {
+            Log.d(TAG, "⚠️ Text truly too short: '$trimmedText' (${trimmedText.length} chars)")
+        }
+
+        return isTooShort
+    }
+
 
     /**
      * Create a neutral sentiment analysis for edge cases
