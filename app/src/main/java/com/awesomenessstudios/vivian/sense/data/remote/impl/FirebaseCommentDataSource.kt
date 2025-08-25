@@ -1,5 +1,6 @@
 package com.awesomenessstudios.vivian.sense.data.remote.impl
 
+import android.util.Log
 import com.awesomenessstudios.vivian.sense.data.models.SenseComment
 import com.awesomenessstudios.vivian.sense.data.models.SenseSentiment
 import com.awesomenessstudios.vivian.sense.data.models.SenseUser
@@ -60,9 +61,11 @@ class FirebaseCommentDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun writeComment(  commentText: String,
-                                        postId: String,
-                                        parentCommentId: String?): Result<Unit> {
+    override suspend fun writeComment(
+        commentText: String,
+        postId: String,
+        parentCommentId: String?
+    ): Result<Unit> {
         return try {
             val currentUser = auth.currentUser
                 ?: return Result.failure(Exception("User not authenticated"))
@@ -104,19 +107,22 @@ class FirebaseCommentDataSource @Inject constructor(
                 user = user
             )
 
+            Log.d(this.javaClass.simpleName, "writeComment: $newComment")
             // Write comment and increment comment count in a transaction
             firestore.runTransaction { transaction ->
-                transaction.set(commentRef, newComment)
 
                 // Safely increment comment count
                 val snapshot = transaction.get(postRef)
                 val currentCount = snapshot.getLong("commentCount") ?: 0
+
+                transaction.set(commentRef, newComment)
                 transaction.update(postRef, "commentCount", currentCount + 1)
             }.await()
 
             Result.success(Unit)
 
         } catch (e: Exception) {
+            Log.d(this.javaClass.simpleName, "writeComment: $e")
             Result.failure(e)
         }
     }

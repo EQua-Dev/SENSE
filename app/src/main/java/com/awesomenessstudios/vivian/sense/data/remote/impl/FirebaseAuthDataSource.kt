@@ -14,7 +14,6 @@ import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class FirebaseAuthDataSource @Inject constructor(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore

@@ -101,6 +101,7 @@ class PostDetailViewModel @Inject constructor(
                     }
                 }
                 .collect { post ->
+                    Log.d(this@PostDetailViewModel.javaClass.simpleName, "loadPostDetail: $post")
                     _postDetailState.update {
                         it.copy(
                             postDetailLoading = false,
@@ -154,7 +155,7 @@ class PostDetailViewModel @Inject constructor(
             when {
                 result.isSuccess -> {
                     refreshPostDetail(postId)
-
+                    _postDetailState.update { it.copy(commentText = "") }
                 }
 
                 result.isFailure -> {

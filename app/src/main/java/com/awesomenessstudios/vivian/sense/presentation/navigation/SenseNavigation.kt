@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -106,7 +105,7 @@ fun SenseNavigation(
 
             val postId = backStackEntry.arguments?.getString("postId") ?: ""
 
-            PostDetailScreen(postId = postId)
+            PostDetailScreen(postId = postId, navController = navController)
         }
 
         composable(Screen.Profile.route) {
@@ -146,8 +145,8 @@ fun SenseNavigation(
                 onNavigateBack = {
                     navController.navigateUp()
                 },
-
-                )
+                onNavigateToDetail = { analyticSection, _ -> }
+            )
         }
     }
 }

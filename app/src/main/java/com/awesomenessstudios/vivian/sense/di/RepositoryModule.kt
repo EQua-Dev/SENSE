@@ -1,15 +1,19 @@
 package com.awesomenessstudios.vivian.sense.di
 
 
+import com.awesomenessstudios.vivian.sense.data.remote.AnalyticsRemoteDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.AuthDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.CommentDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.PostDataSource
+import com.awesomenessstudios.vivian.sense.data.remote.impl.AnalyticsRemoteDataSourceImpl
 import com.awesomenessstudios.vivian.sense.data.remote.impl.FirebaseAuthDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.impl.FirebaseCommentDataSource
 import com.awesomenessstudios.vivian.sense.data.remote.impl.FirebasePostDataSource
+import com.awesomenessstudios.vivian.sense.data.repository.AnalyticsRepositoryImpl
 import com.awesomenessstudios.vivian.sense.data.repository.AuthRepositoryImpl
 import com.awesomenessstudios.vivian.sense.data.repository.CommentRepositoryImpl
 import com.awesomenessstudios.vivian.sense.data.repository.PostRepositoryImpl
+import com.awesomenessstudios.vivian.sense.domain.repository.AnalyticsRepository
 import com.awesomenessstudios.vivian.sense.domain.repository.AuthRepository
 import com.awesomenessstudios.vivian.sense.domain.repository.CommentRepository
 import com.awesomenessstudios.vivian.sense.domain.repository.PostRepository
@@ -58,4 +62,17 @@ abstract class RepositoryModule {
     abstract fun bindCommentRepository(
         commentRepositoryImpl: CommentRepositoryImpl
     ): CommentRepository
+
+
+    @Binds
+    @Singleton
+    abstract fun bindAnalyticsDataSource(
+        firebaseAnalyticsDataSource: AnalyticsRemoteDataSourceImpl
+    ): AnalyticsRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindAnalyticsRepository(
+        analyticsRepositoryImpl: AnalyticsRepositoryImpl
+    ): AnalyticsRepository
 }

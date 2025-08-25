@@ -1,13 +1,10 @@
 package com.awesomenessstudios.vivian.sense.data.remote.impl
 
 
-import com.awesomenessstudios.vivian.sense.data.models.SenseComment
 import com.awesomenessstudios.vivian.sense.data.models.SensePost
-import com.awesomenessstudios.vivian.sense.data.models.SenseSentiment
 import com.awesomenessstudios.vivian.sense.data.models.SenseUser
 import com.awesomenessstudios.vivian.sense.data.remote.PostDataSource
 import com.awesomenessstudios.vivian.sense.ml.SentimentAnalyzer
-import com.awesomenessstudios.vivian.sense.ml.models.TextType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
